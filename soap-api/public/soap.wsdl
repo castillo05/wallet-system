@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions name="WalletService"
+    targetNamespace="http://localhost:8000/soap"
+    xmlns:tns="http://localhost:8000/soap"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+    xmlns="http://schemas.xmlsoap.org/wsdl/">
+
+    <types>
+        <xsd:schema targetNamespace="http://localhost:8000/soap">
+            <!-- Register Client -->
+            <xsd:element name="registerClientRequest">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="document" type="xsd:string"/>
+                        <xsd:element name="name" type="xsd:string"/>
+                        <xsd:element name="email" type="xsd:string"/>
+                        <xsd:element name="phone" type="xsd:string"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            
+            <!-- Get Balance -->
+            <xsd:element name="getBalanceRequest">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="document" type="xsd:string"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            
+            <!-- Load Balance -->
+            <xsd:element name="loadBalanceRequest">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="document" type="xsd:string"/>
+                        <xsd:element name="amount" type="xsd:float"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            
+            <!-- Create Payment Session -->
+            <xsd:element name="createPaymentSessionRequest">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="document" type="xsd:string"/>
+                        <xsd:element name="amount" type="xsd:float"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            
+            <!-- Confirm Payment -->
+            <xsd:element name="confirmPaymentRequest">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="token" type="xsd:string"/>
+                        <xsd:element name="amount" type="xsd:float"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            
+            <!-- Generic Response -->
+            <xsd:element name="response">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="success" type="xsd:boolean"/>
+                        <xsd:element name="cod_error" type="xsd:string"/>
+                        <xsd:element name="message_error" type="xsd:string"/>
+                        <xsd:element name="data" type="xsd:anyType"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+        </xsd:schema>
+    </types>
+
+    <message name="registerClientInput">
+        <part name="parameters" element="tns:registerClientRequest"/>
+    </message>
+    <message name="registerClientOutput">
+        <part name="parameters" element="tns:response"/>
+    </message>
+
+    <message name="getBalanceInput">
+        <part name="parameters" element="tns:getBalanceRequest"/>
+    </message>
+    <message name="getBalanceOutput">
+        <part name="parameters" element="tns:response"/>
+    </message>
+
+    <message name="loadBalanceInput">
+        <part name="parameters" element="tns:loadBalanceRequest"/>
+    </message>
+    <message name="loadBalanceOutput">
+        <part name="parameters" element="tns:response"/>
+    </message>
+
+    <message name="createPaymentSessionInput">
+        <part name="parameters" element="tns:createPaymentSessionRequest"/>
+    </message>
+    <message name="createPaymentSessionOutput">
+        <part name="parameters" element="tns:response"/>
+    </message>
+
+    <message name="confirmPaymentInput">
+        <part name="parameters" element="tns:confirmPaymentRequest"/>
+    </message>
+    <message name="confirmPaymentOutput">
+        <part name="parameters" element="tns:response"/>
+    </message>
+
+    <portType name="WalletPortType">
+        <operation name="registerClient">
+            <input message="tns:registerClientInput"/>
+            <output message="tns:registerClientOutput"/>
+        </operation>
+        <operation name="getBalance">
+            <input message="tns:getBalanceInput"/>
+            <output message="tns:getBalanceOutput"/>
+        </operation>
+        <operation name="loadBalance">
+            <input message="tns:loadBalanceInput"/>
+            <output message="tns:loadBalanceOutput"/>
+        </operation>
+        <operation name="createPaymentSession">
+            <input message="tns:createPaymentSessionInput"/>
+            <output message="tns:createPaymentSessionOutput"/>
+        </operation>
+        <operation name="confirmPayment">
+            <input message="tns:confirmPaymentInput"/>
+            <output message="tns:confirmPaymentOutput"/>
+        </operation>
+    </portType>
+
+    <binding name="WalletBinding" type="tns:WalletPortType">
+        <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+        <operation name="registerClient">
+            <soap:operation soapAction="http://localhost:8000/soap/registerClient"/>
+            <input><soap:body use="literal"/></input>
+            <output><soap:body use="literal"/></output>
+        </operation>
+        <operation name="getBalance">
+            <soap:operation soapAction="http://localhost:8000/soap/getBalance"/>
+            <input><soap:body use="literal"/></input>
+            <output><soap:body use="literal"/></output>
+        </operation>
+        <operation name="loadBalance">
+            <soap:operation soapAction="http://localhost:8000/soap/loadBalance"/>
+            <input><soap:body use="literal"/></input>
+            <output><soap:body use="literal"/></output>
+        </operation>
+        <operation name="createPaymentSession">
+            <soap:operation soapAction="http://localhost:8000/soap/createPaymentSession"/>
+            <input><soap:body use="literal"/></input>
+            <output><soap:body use="literal"/></output>
+        </operation>
+        <operation name="confirmPayment">
+            <soap:operation soapAction="http://localhost:8000/soap/confirmPayment"/>
+            <input><soap:body use="literal"/></input>
+            <output><soap:body use="literal"/></output>
+        </operation>
+    </binding>
+
+    <service name="WalletService">
+        <port name="WalletPort" binding="tns:WalletBinding">
+            <soap:address location="http://localhost:8000/soap"/>
+        </port>
+    </service>
+</definitions> 
